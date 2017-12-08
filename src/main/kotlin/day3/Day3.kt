@@ -1,5 +1,6 @@
 package day3
 
+import sun.util.calendar.CalendarUtils.mod
 import kotlin.math.abs
 
 val example1 = ""
@@ -12,10 +13,11 @@ fun main(args: Array<String>) {
     println(part1(12))
     println(part1(23))
     println(part1(1024))
+    println(part1(368078))
     println("Corners")
     var corner = center
-    (0..10).forEach {
-//        println("$corner")
+    (0..100).forEach {
+        println("p$corner")
         corner = corner.nextCorner
     }
 }
@@ -42,14 +44,16 @@ fun findNearestBottomRightCorner(target: Int): Corner {
 }
 
 fun findDistFromCenterLine(target: Int, brCorner: Corner): Int {
+    if (brCorner.size == 1) return 0
+
     val distFromBrCorner = target - brCorner.value
 //    val distFromPreviousCorner = ((distFromBrCorner - 1) / 2) + brCorner.cornerIndex
     val midLineIndex = (brCorner.size + 1) / 2
 
-    println("Dist from centerline = ${distFromBrCorner % midLineIndex - 1}")
-    println("($distFromBrCorner % ${brCorner.size}) - 1")
-    // (distFromBR % midline) - midline + 1
-    return distFromBrCorner % brCorner.size - 1
+    val distFromCenter = mod(distFromBrCorner, brCorner.size - 1) - (brCorner.size - 1) / 2
+    println("Dist from centerline = $distFromCenter")
+
+    return distFromCenter
 
 }
 
